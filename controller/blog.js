@@ -99,7 +99,7 @@ const newBanner = (bannerData = {}) => {
 
     return exec(sql).then(entity => {
         return {
-            id: entity.insertId 
+          id: entity.insertId 
         }
     })
 }

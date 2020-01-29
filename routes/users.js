@@ -12,9 +12,9 @@ router.post('/login', function(req, res, next) {
    console.log(username)
    return getLogin(username, password).then(result => {
      if (result) {
-       res.setHeader('Set-Cookie', `username=${username};path=/;max-age=60000`);
+      //  res.setHeader('Set-Cookie', `username=${username};path=/;max-age=60000`);
 
-      //  res.cookie("username",username,{maxAge: 9000, httpOnly: true});
+        res.cookie("username",username,{ maxAge: 1000000*3,path:'/'});
 
        res.json(new SuccessModel(result))
      }
