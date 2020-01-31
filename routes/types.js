@@ -16,7 +16,7 @@ const {
 // 根据 classfy 获取
 router.get('/typelist', function(req, res, next) {
   if (!req.query || !req.query.classfy) {
-    res.json(new ErrorModel())
+    res.jsonp(new ErrorModel())
     return
   } 
   return getTypes(req.query.classfy).then(listData => {

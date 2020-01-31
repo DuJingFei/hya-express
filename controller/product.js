@@ -36,10 +36,12 @@ const newProduct = (data = {}) => {
     const type = escape(data.type || '');
     const image = escape(data.image || '');
     const content =escape(xss(data.content));
+    const specification =escape(xss(data.specification));
+    const benefit =escape(xss(data.benefit));
     const createtime = dateSimpleVersion(Date.now());
     const updatetime = dateSimpleVersion(Date.now());
 
-    let sql = `insert into t_products (name, model, type, image, content, createtime, updatetime) values (${name}, ${model}, ${type}, ${image}, ${content}, '${createtime}', '${updatetime}')`
+    let sql = `insert into t_products (name, model, type, image, content, specification, benefit,createtime, updatetime) values (${name}, ${model}, ${type}, ${image}, ${content}, "${specification}", "${benefit}", '${createtime}', '${updatetime}')`
 
     return exec(sql).then(entity => {
        return {
@@ -55,9 +57,11 @@ const updateProduct = (data) => {
   const type = escape(data.type || '');
   const image = escape(data.image || '');
   const content =escape(xss(data.content));
+  const specification =escape(xss(data.specification));
+  const benefit =escape(xss(data.benefit));
   const updatetime = dateSimpleVersion(Date.now());
 
-  const sql = `update t_products set name=${name}, model=${model}, type=${type}, image=${image}, content=${content}, updatetime='${updatetime}' where id=${id}`;
+  const sql = `update t_products set name=${name}, model=${model}, type=${type}, image=${image}, content=${content}, specification=${specification}, benefit=${benefit}, updatetime='${updatetime}' where id=${id}`;
   return exec(sql).then(row => {
     return row.affectedRows > 0 ? true : false;
   })

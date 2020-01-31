@@ -63,7 +63,7 @@ router.get('/test', function(req, res, next) {
 })
 
 router.post('/product/add', function(req, res, next) {
-  let params = { name , model , type , content , specification , cases } = req.body;
+  let params = { name , model , type , content , specification , benefit } = req.body;
   return newProduct(params).then(listData => {
     res.json(new SuccessModel(listData))
   }).catch(err => {})
@@ -71,7 +71,7 @@ router.post('/product/add', function(req, res, next) {
 
 // 更新 product
 router.post('/product/:id', function(req, res, next) {
-  let params = { id , name , model , type , content } = req.body;
+  let params = { id , name , model , type , content, specification , benefit } = req.body;
   return updateProduct(params).then( data => {
     if (!data) {
       res.json(new ErrorModel('资源不存在'))
