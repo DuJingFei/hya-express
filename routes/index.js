@@ -37,10 +37,16 @@ const {
 const { SuccessModel , ErrorModel } = require('../model/resModel');
 
 /* product start */
-router.get('/list', function(req, res, next) {
+router.get('/product/list', function(req, res, next) {
   let name = req.query.name || '';
-  let keyword = req.query.keyword || ''
-  return getList(name, keyword).then(listData => {
+  let keyword = req.query.keyword || '';
+  let typeId = req.query && req.query.typeId != null ? req.query.typeId : '';
+  let params = {
+    name: name,
+    keyword: keyword,
+    typeId: typeId
+  }
+  return getList(params).then(listData => {
     res.json(new SuccessModel(listData))
   })
 });

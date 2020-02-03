@@ -20,9 +20,40 @@ router.get('/typelist', function(req, res, next) {
     return
   } 
   return getTypes(req.query.classfy).then(listData => {
+    /*
+    if (listData && listData.length > 0) {
+      listData = listData.filter(item => {
+        let children = listData.filter(child => child.parentId == item.Id );
+        item.children = children;
+        if (item.parentId == 0) {
+          return item
+        }
+      })
+    } */
     res.json(new SuccessModel(listData))
   })
 });
+
+// 给到 tree 形
+router.get('/typelist/tree', function(req, res, next) {
+  if (!req.query || !req.query.classfy) {
+    res.jsonp(new ErrorModel())
+    return
+  } 
+  return getTypes(req.query.classfy).then(listData => {
+    if (listData && listData.length > 0) {
+      listData = listData.filter(item => {
+        let children = listData.filter(child => child.parentId == item.Id );
+        item.children = children;
+        if (item.parentId == 0) {
+          return item
+        }
+      })
+    } 
+    res.json(new SuccessModel(listData))
+  })
+});
+
 
 // 新增type
 router.post('/type/add', function(req, res, next) {

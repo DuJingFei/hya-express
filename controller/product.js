@@ -18,13 +18,16 @@ const dateSimpleVersion = function(date , symbal = '-') {
     return `${date.getFullYear()}-${month}-${day} ${hour}:${min}:${seconds}` 
 }
 
-const getList = (name, keyword) => {
-    let sql = `select * from t_products where 1=1 `
-    if(name) {
-        sql += `and name='${name}' `
+const getList = (params) => {
+    let sql = `select * from t_products where 1=1 `;
+    if (params.name) {
+      sql += `and name='${name}' `
     }
-    if(keyword) {
-        sql += `and title like '%${keyword}%' `
+    if (params.keyword) {
+      sql += `and title like '%${keyword}%' `
+    }
+    if (params.typeId !== null) {
+      sql += `and type='${params.typeId}' `
     }
     sql += `order by createtime desc;`
     return exec(sql)

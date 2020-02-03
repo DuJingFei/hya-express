@@ -3,6 +3,7 @@ const { exec , escape } = require('../db/mysql')
 const getTypes = (classfy) => {
   let sql = `select * from t_types where classfy = ${classfy} order by orderIndex desc`;
   return exec(sql).then(rows => {
+    
     return rows;
   })
 }
