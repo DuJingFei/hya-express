@@ -26,7 +26,7 @@ const getList = (params) => {
     if (params.keyword) {
       sql += `and title like '%${keyword}%' `
     }
-    if (params.typeId !== null) {
+    if (params.typeId) {
       sql += `and type='${params.typeId}' `
     }
     sql += `order by createtime desc;`
