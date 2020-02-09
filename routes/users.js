@@ -9,12 +9,17 @@ const { SuccessModel , ErrorModel } = require('../model/resModel');
 /* GET users listing. */
 router.post('/login', function(req, res, next) {
    const { username , password } = req.body;
-   console.log(username)
    return getLogin(username, password).then(result => {
      if (result) {
       //  res.setHeader('Set-Cookie', `username=${username};path=/;max-age=60000`);
 
-        res.cookie("username",username,{ maxAge: 1000000*3,path:'/'});
+        res.cookie("usertoken", password, {
+          signed: true,
+          maxAge: 1000000 * 3,
+          path:'/',
+          httpOnly: true
+
+        });
 
        res.json(new SuccessModel(result))
      }

@@ -1,44 +1,36 @@
-const { exec , escape } = require('../db/mysql')
-const xss = require('xss')
+var express = require('express');
+//var images = require('images');
+var router = express.Router();
 
-const newContact = (data = {}) => {
-    const name = escape(data.name) || '';
-    const country = escape(data.country|| '');
-    const company = escape(data.company || '');
-    const tel = escape(data.tel || '');
-    const email = escape(data.email || '');
-    const url = escape(data.url || '');
-    const detail = escape(data.detail || '');
-    const productmodel = escape(data.productmodel || '');
-    const createtime = dateSimpleVersion(Date.now());
 
-    let sql = `insert into t_contact (name, country, company, tel, email, url, detail, productmodel, createtime) values (${name}, ${country}, ${company}, ${tel}, ${email},  ${url}, ${detail},  ${productmodel}, '${createtime}')`;
 
-    return exec(sql).then(entity => {
-       return {
-           id: entity.insertId
-       }
-    }) 
-}
-
-const geContactItem = (id) => {
-  const sql = `select * from t_contact where id = ${id}`
-  return exec(sql).then(rows => {
-    return rows[0]
-  })
-}
-
-const getContactList = (params) => {
-    let sql = `select * from t_contact where 1=1 `;
-    if (params.name) {
-      sql += `and name='${name}' `
-    }
-    sql += `order by createtime desc;`
-    return exec(sql)
-}
-
-module.exports = {
+const { SuccessModel , ErrorModel } = require('../model/resModel');
+const {  
   newContact,
   geContactItem,
   getContactList
-}
+} = require('../controller/contact');
+
+const { validLogin } = require('../utils/common')
+
+// 根据 classfy 获取
+router.get('/contact/list', function(req, res, next) {
+
+  validLogin(req).then(result => {
+    return getContactList().then(listData => {
+      res.json(new SuccessModel(listData))
+    }).catch(err => {
+      
+    })
+  })
+});
+
+// 新增type
+router.post('/contact/add', function(req, res, next) {
+  let params = {name, parentId , content , classfy, orderIndex} = req.body;
+  return newContact(params).then(result => {
+    res.json(new SuccessModel(result))
+  })
+})
+
+module.exports = router
