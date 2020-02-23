@@ -1,5 +1,9 @@
 var express = require('express');
+var ip = require('ip');
 //var images = require('images');
+
+var myip = ip.address();
+
 var router = express.Router();
 const multer = require('multer');
 //const upload = multer({ dest: 'public/upload/' });
@@ -98,7 +102,7 @@ router.get('/test', function(req, res, next) {
 
 router.post('/upload', upload.single('file'), function(req, res, next) {
   res.json(new SuccessModel({ 
-    path: `http://localhost:6741/upload/${req.file.filename}`,
+    path: `http://${myip}:86/api/upload/${req.file.filename}`,
     message: '上传成功'
    }))
 });
