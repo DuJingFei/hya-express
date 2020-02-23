@@ -18,7 +18,7 @@ var storage = multer.diskStorage({
   } 
 })
 var upload = multer({ storage: storage })
-
+const { ipAddress } = require('../controller/const')
 const {  
   getDetail, 
   newBlog, 
