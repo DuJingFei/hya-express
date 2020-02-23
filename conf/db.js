@@ -5,7 +5,7 @@ let REDIS_CONF
 
 if (env === 'dev') {
     MYSQL_CONF = {
-        host: 'localhost',
+        host: '39.104.160.139',
         user: 'root',
         port: '3306',
         database: 'blog'
