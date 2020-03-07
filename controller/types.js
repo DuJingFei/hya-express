@@ -33,13 +33,14 @@ const getTypeItem = (id) => {
 }
 
 const updateType = (typeData = {}) => {
+  const Id = typeData.Id;
   const name = escape(typeData.name);
   const parentId = escape(typeData.parentId);
   const content = escape(typeData.content);
   const classfy = escape(typeData.classfy);
   const orderIndex = escape(typeData.orderIndex);
 
-  const sql = `update t_types set name=${name},parentId=${parentId},content=${content},classfy=${classfy},orderIndex=${orderIndex}`
+  const sql = `update t_types set name=${name},parentId=${parentId},content=${content},classfy=${classfy},orderIndex=${orderIndex} where Id = ${Id}`
 
   return exec(sql).then(entity => {
     return entity.affectedRows > 0 ? true : false
