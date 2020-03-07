@@ -77,10 +77,21 @@ const getProduct = (id) => {
   })
 }
 
+const deleteProduct = (id, author) => {
+  // id 为更新博客的id
+  const sql = `delete from t_products where id=${id}`;
+  return exec(sql).then(delData => {
+     if(delData.affectedRows > 0) {
+         return true
+     }
+     return false
+  })
+}
 
 module.exports = {
     getList,
     newProduct,
     updateProduct,
-    getProduct
+    getProduct,
+    deleteProduct
 }

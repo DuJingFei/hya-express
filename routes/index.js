@@ -2,7 +2,8 @@ var express = require('express');
 var ip = require('ip');
 //var images = require('images');
 
-var myip = ip.address();
+// var myip = ip.address();
+   var myip = ip.address();
 
 var router = express.Router();
 const multer = require('multer');
@@ -35,7 +36,8 @@ const {
   getList,
   newProduct,
   updateProduct,
-  getProduct
+  getProduct,
+  deleteProduct
 } = require('../controller/product');
 
 const { SuccessModel , ErrorModel } = require('../model/resModel');
@@ -91,6 +93,14 @@ router.post('/product/:id', function(req, res, next) {
    
   }) 
 })
+
+router.delete('/product/:id', function(req, res, next) {
+  let id = req.params && req.params.id
+  return deleteProduct(id).then( data => {
+    res.json(new SuccessModel(data))
+  }) 
+})
+
 /* product end */
 
 
@@ -102,7 +112,7 @@ router.get('/test', function(req, res, next) {
 
 router.post('/upload', upload.single('file'), function(req, res, next) {
   res.json(new SuccessModel({ 
-    path: `http://${myip}:86/api/upload/${req.file.filename}`,
+    path: `http://39.104.160.139:86/api/upload/${req.file.filename}`,
     message: '上传成功'
    }))
 });
