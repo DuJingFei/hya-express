@@ -16,10 +16,10 @@ const con = mysql.createConnection({
 */
 
 const mysqlConf = {
- // host: '39.104.160.139',
-  host: 'localhost',
+  host: '39.104.160.139',
+ // host: 'localhost',
   user: 'root',
- // password: 'ABCabc123.',
+  password: 'ABCabc123.',
   port: '3306',
   database: 'blog'
 }
