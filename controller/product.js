@@ -21,7 +21,10 @@ const dateSimpleVersion = function(date , symbal = '-') {
 const getList = (params) => {
     let sql = `select * from t_products where 1=1 `;
     if (params.name) {
-      sql += `and name='${name}' `
+      sql += `and name='${params.name}' `
+    }
+    if (params.recommend) {
+      sql += `and recommend='${params.recommend}' `
     }
     if (params.keyword) {
       sql += `and title like '%${keyword}%' `
@@ -36,6 +39,7 @@ const getList = (params) => {
 const newProduct = (data = {}) => {
     const name = escape(data.name) || '';
     const model = escape(data.model|| '');
+    const recommend = escape(data.recommend || false);
     const type = escape(data.type || '');
     const image = escape(data.image || '');
     const content =escape(xss(data.content));
@@ -44,7 +48,7 @@ const newProduct = (data = {}) => {
     const createtime = dateSimpleVersion(Date.now());
     const updatetime = dateSimpleVersion(Date.now());
 
-    let sql = `insert into t_products (name, model, type, image, content, specification, benefit,createtime, updatetime) values (${name}, ${model}, ${type}, ${image}, ${content}, "${specification}", "${benefit}", '${createtime}', '${updatetime}')`
+    let sql = `insert into t_products (name, model, type, recommend, image, content, specification, benefit,createtime, updatetime) values (${name}, ${model}, ${type}, ${recommend}, ${image}, ${content}, "${specification}", "${benefit}", '${createtime}', '${updatetime}')`
 
     return exec(sql).then(entity => {
        return {
@@ -58,13 +62,14 @@ const updateProduct = (data) => {
   const name = escape(data.name) || '';
   const model = escape(data.model|| '');
   const type = escape(data.type || '');
+  const recommend = escape(data.recommend || false);
   const image = escape(data.image || '');
   const content =escape(xss(data.content));
   const specification =escape(xss(data.specification));
   const benefit =escape(xss(data.benefit));
   const updatetime = dateSimpleVersion(Date.now());
 
-  const sql = `update t_products set name=${name}, model=${model}, type=${type}, image=${image}, content=${content}, specification=${specification}, benefit=${benefit}, updatetime='${updatetime}' where id=${id}`;
+  const sql = `update t_products set name=${name}, model=${model}, type=${type}, image=${image}, recommend=${recommend}, content=${content}, specification=${specification}, benefit=${benefit}, updatetime='${updatetime}' where id=${id}`;
   return exec(sql).then(row => {
     return row.affectedRows > 0 ? true : false;
   })

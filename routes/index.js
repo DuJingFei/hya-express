@@ -47,10 +47,12 @@ router.get('/product/list', function(req, res, next) {
   let name = req.query.name || '';
   let keyword = req.query.keyword || '';
   let typeId = req.query && req.query.typeId != null ? req.query.typeId : '';
+  let recommend = req.query && req.query.recommend != null ? req.query.recommend : '';
   let params = {
     name: name,
     keyword: keyword,
-    typeId: typeId
+    typeId: typeId,
+    recommend: recommend
   }
   return getList(params).then(listData => {
     res.json(new SuccessModel(listData))
@@ -75,7 +77,7 @@ router.get('/test', function(req, res, next) {
 })
 
 router.post('/product/add', function(req, res, next) {
-  let params = { name , model , type , content , specification , benefit } = req.body;
+  let params = { name , model , type , content , recommend, specification , benefit } = req.body;
   return newProduct(params).then(listData => {
     res.json(new SuccessModel(listData))
   }).catch(err => {})
@@ -83,7 +85,7 @@ router.post('/product/add', function(req, res, next) {
 
 // 更新 product
 router.post('/product/:id', function(req, res, next) {
-  let params = { id , name , model , type , content, specification , benefit } = req.body;
+  let params = { id , name , model , type , content, recommend, specification , benefit } = req.body;
   return updateProduct(params).then( data => {
     if (!data) {
       res.json(new ErrorModel('资源不存在'))
